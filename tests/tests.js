@@ -1,7 +1,6 @@
 'use strict';
 
 var format = require('util').format;
-var _ = require('lodash-mixins');
 var rewire = require('rewire');
 var dirp = rewire('../index');
 
@@ -53,7 +52,16 @@ describe('dirp test', function () {
   ['its-a-big-one', 'filename-1', 'its-a-small-1-now']
     .forEach(function (key) {
       it(format('should contain the path and name for %s', key), function () {
-        expect(result[_.camelCase(key)]).toEqual({name: format('%s/%s', directory, key)});
+        expect(result[camel(key)]).toEqual({name: format('%s/%s', directory, key)});
       });
     });
 });
+
+function camel (str) {
+  var parts = str.split('-');
+  var first = parts.shift();
+
+  return [first].concat(parts.map(function upperFirst (str) {
+    return str[0].toUpperCase() + str.slice(1);
+  })).join('');
+}
