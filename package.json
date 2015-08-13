@@ -1,6 +1,6 @@
 {
   "name": "@intel-js/dirp",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Specify a directory and an array of source files. The contents of the files will be loaded into an object and can be retrieved using dot notation. The item returned will be a copy and not the original so the contents can be modified without affecting any previous objects.",
   "main": "index.js",
   "dependencies": {

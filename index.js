@@ -16,11 +16,13 @@ var statSync = require('fs').statSync;
 module.exports = function loadDirectoryItems (directory, requireFile) {
 
   var files = readDirSync(directory);
-  var filesToExclude = ['index.js', 'package.json', 'ziplock.json'];
+  var filesToExclude = ['index.js', 'package.json', 'ziplock.json', 'jasmine.json'];
+  var validExtensions = ['.js', '.json'];
 
   var filenames = fp.flow(
       fp.filter(filterOnlyFiles),
       fp.filter(filterFileName),
+      fp.filter(filterFileExtension),
       fp.map(removeExtensionFromName))(files);
 
   var camelCaseFileNames = fp.map(camel, filenames);
@@ -39,7 +41,11 @@ module.exports = function loadDirectoryItems (directory, requireFile) {
   }
 
   function filterFileName (name) {
-    return name[0] !== '.' && filesToExclude.indexOf(name) === -1;
+    return filesToExclude.indexOf(name) === -1;
+  }
+
+  function filterFileExtension (name) {
+    return validExtensions.indexOf(path.extname(name)) !== -1;
   }
 
   function camel (str) {
