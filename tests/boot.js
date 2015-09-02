@@ -1,6 +1,6 @@
 'use strict';
 
-if (process.env.NODE_ENV === 'CI') {
+if (process.env.RUNNER === 'CI') {
   var KrustyJasmineReporter = require('krusty-jasmine-reporter');
   var junitReporter = new KrustyJasmineReporter.KrustyJasmineJUnitReporter({
       specTimer: new jasmine.Timer(),
