@@ -1,6 +1,6 @@
 'use strict';
 
-var fp = require('@intel-js/fp');
+var fp = require('intel-fp');
 var path = require('path');
 var readDirSync = require('fs').readdirSync;
 var statSync = require('fs').statSync;

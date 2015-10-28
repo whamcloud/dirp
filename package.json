@@ -1,20 +1,10 @@
 {
-  "name": "@intel-js/dirp",
+  "name": "intel-dirp",
   "version": "1.0.4",
   "description": "Specify a directory and an array of source files. The contents of the files will be loaded into an object and can be retrieved using dot notation. The item returned will be a copy and not the original so the contents can be modified without affecting any previous objects.",
   "main": "index.js",
-  "dependencies": {
-    "@intel-js/fp": "1.0.2"
-  },
-  "devDependencies": {
-    "jasmine": "2.3.1",
-    "jscs": "2.1.0",
-    "jshint": "2.8.0",
-    "krusty-jasmine-reporter": "1.0.0",
-    "pre-commit": "1.1.1",
-    "rewire": "2.3.1"
-  },
-  "whitelist": ["jasmine", "krusty-jasmine-reporter", "rewire"],
+  "author": "IML Team",
+  "license": "MIT",
   "scripts": {
     "test": "JASMINE_CONFIG_PATH=jasmine.json NODE_ENV=test jasmine",
     "jshint": "jshint --c ./.jshintrc --exclude-path ./.jshintignore .",
@@ -25,9 +15,23 @@
     "jshint",
     "test"
   ],
+  "publishConfig": {
+    "registry": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-local"
+  },
   "repository" : {
     "type" : "git",
-    "url" : "https://github.com/intel-js/dirp.git"
+    "url" : "https://github.intel.com/IML/dirp.git"
   },
-  "license": "MIT"
+  "dependencies": {
+    "intel-fp": "1.0.13"
+  },
+  "devDependencies": {
+    "jasmine": "2.3.1",
+    "jscs": "2.1.0",
+    "jshint": "2.8.0",
+    "krusty-jasmine-reporter": "1.0.0",
+    "pre-commit": "1.1.1",
+    "rewire": "2.3.1"
+  },
+  "whitelist": ["jasmine", "krusty-jasmine-reporter", "rewire"]
 }
