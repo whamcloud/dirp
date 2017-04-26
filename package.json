@@ -1,9 +1,9 @@
 {
-  "name": "intel-dirp",
+  "name": "@mfl/dirp",
   "version": "1.0.5",
   "description": "Specify a directory and an array of source files. The contents of the files will be loaded into an object and can be retrieved using dot notation. The item returned will be a copy and not the original so the contents can be modified without affecting any previous objects.",
   "main": "index.js",
-  "author": "IML Team",
+  "author": "MFL Team",
   "license": "MIT",
   "scripts": {
     "test": "JASMINE_CONFIG_PATH=jasmine.json NODE_ENV=test jasmine",
@@ -16,14 +16,14 @@
     "test"
   ],
   "publishConfig": {
-    "registry": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-local"
+    "access": "public"
   },
   "repository" : {
     "type" : "git",
-    "url" : "https://github.intel.com/IML/dirp.git"
+    "url" : "https://github.intel.com/MFL/dirp.git"
   },
   "dependencies": {
-    "intel-fp": "1.0.14"
+    "@mfl/fp": "1.0.14"
   },
   "devDependencies": {
     "jasmine": "2.3.2",
