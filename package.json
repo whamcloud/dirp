@@ -6,13 +6,14 @@
   "author": "MFL Team",
   "license": "MIT",
   "scripts": {
-    "test": "JASMINE_CONFIG_PATH=jasmine.json NODE_ENV=test jasmine",
-    "jshint": "jshint --c ./.jshintrc --exclude-path ./.jshintignore .",
-    "jscs": "jscs ."
+    "test": "jest",
+    "cover": "NODE_ENV=test npm t -- --coverage",
+    "flow": "flow",
+    "eslint": "eslint ./"
   },
   "pre-commit": [
-    "jscs",
-    "jshint",
+    "flow",
+    "eslint",
     "test"
   ],
   "publishConfig": {
@@ -22,14 +23,32 @@
     "type": "git",
     "url": "https://github.com/intel-hpdd/dirp.git"
   },
+  "jest": {
+    "resetModules": true,
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "test"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/(?!@mfl)/"
+    ]
+  },
   "dependencies": {
-    "@mfl/fp": "5.1.0"
+    "@mfl/fp": "^8.0.0"
   },
   "devDependencies": {
-    "jasmine": "2.3.2",
-    "jscs": "2.5.1",
-    "jshint": "2.8.0",
-    "pre-commit": "1.1.2",
-    "rewire": "2.5.0"
+    "@mfl/flow-jasmine": "^1.6.0",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-preset-env": "^1.4.0",
+    "eslint": "^3.19.0",
+    "eslint-config-prettier": "^1.7.0",
+    "eslint-plugin-flowtype": "^2.32.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-prettier": "^2.0.1",
+    "flow-bin": "^0.44.2",
+    "jest": "^19.0.2",
+    "pre-commit": "1.2.2",
+    "prettier": "^1.2.2"
   }
 }
