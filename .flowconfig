@@ -1,0 +1,9 @@
+[ignore]
+
+[include]
+
+[libs]
+node_modules/@mfl/flow-jasmine/flow-typed
+
+[options]
+experimental.strict_type_args=true

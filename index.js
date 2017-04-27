@@ -1,59 +1,78 @@
-'use strict';
+// @flow
 
-var fp = require('intel-fp');
-var path = require('path');
-var readDirSync = require('fs').readdirSync;
-var statSync = require('fs').statSync;
+//
+// INTEL CONFIDENTIAL
+//
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
+//
+// The source code contained or described herein and all documents related
+// to the source code ("Material") are owned by Intel Corporation or its
+// suppliers or licensors. Title to the Material remains with Intel Corporation
+// or its suppliers and licensors. The Material contains trade secrets and
+// proprietary and confidential information of Intel or its suppliers and
+// licensors. The Material is protected by worldwide copyright and trade secret
+// laws and treaty provisions. No part of the Material may be used, copied,
+// reproduced, modified, published, uploaded, posted, transmitted, distributed,
+// or disclosed in any way without Intel's prior express written permission.
+//
+// No license under any patent, copyright, trade secret or other intellectual
+// property right is granted to or conferred upon you by disclosure or delivery
+// of the Materials, either expressly, by implication, inducement, estoppel or
+// otherwise. Any license under such intellectual property rights must be
+// express and approved by Intel in writing.
 
+import * as fp from '@mfl/fp';
+import path from 'path';
+import * as fs from 'fs';
 
-/**
- * Loads all items in the specified directory and requires each file.
- * An object containing the data is returned.
- * @param {String} directory
- * @param {Function} [requireFile]
- * @returns {Object}
- */
-module.exports = function loadDirectoryItems (directory, requireFile) {
+const filesToExclude = [
+  'index.js',
+  'package.json',
+  'ziplock.json',
+  'jasmine.json'
+];
+const validExtensions = ['.js', '.json'];
 
-  var files = readDirSync(directory);
-  var filesToExclude = ['index.js', 'package.json', 'ziplock.json', 'jasmine.json'];
-  var validExtensions = ['.js', '.json'];
+const filterOnlyFiles = (directory: string) => (name: string): boolean =>
+  fs.statSync(path.join(directory, name)).isFile();
 
-  var filenames = fp.flow(
-      fp.filter(filterOnlyFiles),
-      fp.filter(filterFileName),
-      fp.filter(filterFileExtension),
-      fp.map(removeExtensionFromName))(files);
+const removeExtensionFromName = (filename: string): string => {
+  const parts = filename.split('.');
+  if (parts.length > 1) parts.pop();
+  return parts.join('.');
+};
 
-  var camelCaseFileNames = fp.map(camel, filenames);
-  var paths = fp.map(path.join.bind(path, directory), filenames);
-  return fp.zipObject(camelCaseFileNames, fp.map(requireFile || require, paths));
+const filterFileName = (name: string): boolean =>
+  filesToExclude.indexOf(name) === -1;
 
-  function filterOnlyFiles (name) {
-    return statSync(path.join(directory,name)).isFile();
-  }
+const filterFileExtension = (name: string): boolean =>
+  validExtensions.indexOf(path.extname(name)) !== -1;
 
-  function removeExtensionFromName (filename) {
-    var parts = filename.split('.');
-    if (parts.length > 1)
-      parts.pop();
-    return parts.join('.');
-  }
+export const camel = (str: string): string => {
+  const parts = str.split('-');
+  const first = parts.shift();
 
-  function filterFileName (name) {
-    return filesToExclude.indexOf(name) === -1;
-  }
+  return [first]
+    .concat(
+      parts.map(function upperFirst(str) {
+        return str[0].toUpperCase() + str.slice(1);
+      })
+    )
+    .join('');
+};
 
-  function filterFileExtension (name) {
-    return validExtensions.indexOf(path.extname(name)) !== -1;
-  }
+export default (directory: string, requireFile?: Function) => {
+  const files = fs.readdirSync(directory);
 
-  function camel (str) {
-    var parts = str.split('-');
-    var first = parts.shift();
+  const filenames: string[] = files
+    .filter(filterOnlyFiles(directory))
+    .filter(filterFileName)
+    .filter(filterFileExtension)
+    .map(removeExtensionFromName);
 
-    return [first].concat(parts.map(function upperFirst (str) {
-      return str[0].toUpperCase() + str.slice(1);
-    })).join('');
-  }
+  const camelCaseFileNames = filenames.map(camel);
+  const paths = filenames.map(x => path.join(directory, x));
+  const requiredPaths: string[] = paths.map(requireFile || require);
+
+  return fp.zipObject(camelCaseFileNames)(requiredPaths);
 };
