@@ -1,9 +1,9 @@
 {
-  "name": "@mfl/dirp",
+  "name": "@iml/dirp",
   "version": "1.0.6",
   "description": "Specify a directory and an array of source files. The contents of the files will be loaded into an object and can be retrieved using dot notation. The item returned will be a copy and not the original so the contents can be modified without affecting any previous objects.",
   "main": "index.js",
-  "author": "MFL Team",
+  "author": "IML Team",
   "license": "MIT",
   "scripts": {
     "test": "jest",
@@ -30,14 +30,14 @@
       "test"
     ],
     "transformIgnorePatterns": [
-      "/node_modules/(?!@mfl)/"
+      "/node_modules/(?!@iml)/"
     ]
   },
   "dependencies": {
-    "@mfl/fp": "^8.0.0"
+    "@iml/fp": "^8.0.3"
   },
   "devDependencies": {
-    "@mfl/flow-jasmine": "^1.6.0",
+    "@iml/flow-jasmine": "^1.6.1",
     "babel-eslint": "^7.2.3",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-env": "^1.4.0",
